@@ -197,6 +197,13 @@ textarea{resize:vertical;min-height:96px;line-height:1.7}
 .subq>span{display:block;font-size:14px;font-weight:600;color:var(--ink);margin-bottom:8px}
 .subcard input[type=text],.subcard textarea{background:var(--card)}
 
+/* 요청이 멈춰버리는 것을 막는 타임아웃 */
+function timeout(ms){
+  const c = new AbortController();
+  setTimeout(()=>c.abort(), ms);
+  return c.signal;
+}
+
 /* ── 제출 ── */
 .submit-zone{margin-top:26px;text-align:center}
 button.send{
@@ -623,13 +630,14 @@ form.addEventListener("submit", async e=>{
       const body = new URLSearchParams({ ...lastAnswer, _token: TOKEN });
       try{
         // 1차: 일반 요청 — 서버 응답을 읽어 성공/실패를 정확히 판별
-        const res  = await fetch(ENDPOINT, { method:"POST", body });
+        const res  = await fetch(ENDPOINT, { method:"POST", body, signal:timeout(25000) });
         const json = await res.json();
-        if(!json.ok) throw new Error(json.error || "server");
+        if(!json.ok) throw new Error("server:" + (json.error || "unknown"));
       }catch(err){
+        // 서버가 명시적으로 거부한 경우는 재시도하지 않음
+        if(String(err.message).startsWith("server:")) throw err;
         // 2차: CORS 차단 등으로 응답을 못 읽는 환경 → 전송만 시도
-        if(String(err.message).startsWith("server")) throw err;
-        await fetch(ENDPOINT, { method:"POST", mode:"no-cors", body });
+        await fetch(ENDPOINT, { method:"POST", mode:"no-cors", body, signal:timeout(25000) });
       }
     }else{
       await new Promise(r=>setTimeout(r,500));
@@ -645,7 +653,14 @@ form.addEventListener("submit", async e=>{
     $("#done").classList.add("on");
     $("#top").scrollIntoView({behavior:"smooth"});
   }catch(err){
-    toast("제출에 실패했어요. 잠시 후 다시 시도해 주세요.");
+    const m = String(err.message || "");
+    toast(
+      m.includes("closed")   ? "설문 접수가 마감되었습니다." :
+      m.includes("bad token")? "제출 정보가 올바르지 않습니다. 페이지를 새로고침해 주세요." :
+      err.name === "AbortError" ? "응답이 지연되고 있어요. 네트워크 확인 후 다시 눌러 주세요." :
+                               "제출에 실패했어요. 잠시 후 다시 시도해 주세요."
+    );
+    console.error(err);
     btn.disabled = false; btn.textContent = "응답 제출하기";
   }
 });
