@@ -1,0 +1,671 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>지도교수 상담 설문</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Serif+KR:wght@500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/pretendard@1.3.9/dist/web/static/pretendard.min.css">
+<style>
+/* ────────────────────────────────────────────────
+   동덕여자대학교 · 경영융합학과 상담 설문
+   Primary  #8C1F3C (동덕 와인)   Accent #C9A227 (골드)
+   ──────────────────────────────────────────────── */
+:root{
+  --wine:#8C1F3C;
+  --wine-deep:#6E1730;
+  --wine-tint:#F8EFF2;
+  --wine-line:#E8D3DA;
+  --gold:#C9A227;
+  --gold-soft:#F5EBD0;
+  --ink:#1A1A1E;
+  --body:#3D3D45;
+  --muted:#75757F;
+  --line:#E7E3E4;
+  --bg:#FAF7F6;
+  --card:#FFFFFF;
+  --field:#FBFAFA;
+  --shadow:0 1px 2px rgba(26,26,30,.04), 0 8px 28px -12px rgba(140,31,60,.13);
+  --radius:14px;
+}
+:root:not([data-theme="light"]){
+  @media (prefers-color-scheme: dark){
+    --wine:#D98AA1; --wine-deep:#E8A9BB; --wine-tint:#2A1C22; --wine-line:#4A2E38;
+    --gold:#D9B65A; --gold-soft:#332B18;
+    --ink:#F2EEEF; --body:#CFC9CB; --muted:#959093;
+    --line:#332E30; --bg:#151213; --card:#1D1A1C; --field:#211D1F;
+    --shadow:0 1px 2px rgba(0,0,0,.3), 0 10px 30px -14px rgba(0,0,0,.6);
+  }
+}
+:root[data-theme="dark"]{
+  --wine:#D98AA1; --wine-deep:#E8A9BB; --wine-tint:#2A1C22; --wine-line:#4A2E38;
+  --gold:#D9B65A; --gold-soft:#332B18;
+  --ink:#F2EEEF; --body:#CFC9CB; --muted:#959093;
+  --line:#332E30; --bg:#151213; --card:#1D1A1C; --field:#211D1F;
+  --shadow:0 1px 2px rgba(0,0,0,.3), 0 10px 30px -14px rgba(0,0,0,.6);
+}
+
+*{box-sizing:border-box}
+html{-webkit-text-size-adjust:100%}
+body{
+  margin:0; background:var(--bg); color:var(--body);
+  font-family:Pretendard,-apple-system,BlinkMacSystemFont,"Apple SD Gothic Neo","Malgun Gothic",sans-serif;
+  font-size:16px; line-height:1.65; letter-spacing:-.01em;
+  -webkit-font-smoothing:antialiased;
+}
+.serif{font-family:"Noto Serif KR",Pretendard,serif}
+
+/* ── 상단 진행바 ── */
+#bar{position:fixed;top:0;left:0;right:0;height:3px;background:transparent;z-index:50}
+#bar i{display:block;height:100%;width:0;background:linear-gradient(90deg,var(--wine),var(--gold));transition:width .35s cubic-bezier(.4,0,.2,1)}
+
+.wrap{max-width:680px;margin:0 auto;padding:0 16px 96px}
+
+/* ── 헤더 ── */
+header{padding:52px 0 30px;text-align:center}
+.crest{
+  display:inline-flex;align-items:center;gap:9px;
+  padding:7px 15px;border:1px solid var(--wine-line);border-radius:100px;
+  background:var(--wine-tint);color:var(--wine);
+  font-size:12.5px;font-weight:600;letter-spacing:.02em;margin-bottom:22px;
+}
+.crest svg{width:15px;height:15px;flex:none}
+h1{
+  margin:0 0 12px;color:var(--ink);font-size:30px;line-height:1.35;
+  font-weight:700;letter-spacing:-.025em;
+}
+h1 em{font-style:normal;color:var(--wine);display:block;font-size:15px;font-weight:600;letter-spacing:.06em;margin-bottom:10px;font-family:Pretendard,sans-serif}
+.lede{margin:0;color:var(--muted);font-size:14.5px}
+.rule{width:44px;height:2px;background:var(--gold);margin:26px auto 0;border-radius:2px}
+
+/* ── 카드 ── */
+.card{
+  background:var(--card);border:1px solid var(--line);border-radius:var(--radius);
+  box-shadow:var(--shadow);padding:26px;margin-bottom:18px;
+}
+.notice{border-left:3px solid var(--wine);background:var(--card)}
+.notice p{margin:0 0 11px;font-size:14.5px;line-height:1.75}
+.notice p:last-child{margin-bottom:0}
+.notice strong{color:var(--ink);font-weight:600}
+.notice .hl{background:linear-gradient(transparent 62%,var(--gold-soft) 62%);padding:0 2px;color:var(--ink);font-weight:600}
+
+/* ── 섹션 ── */
+section{margin:34px 0 0}
+.shead{display:flex;align-items:baseline;gap:11px;margin:0 0 14px;padding:0 4px}
+.snum{
+  font-size:11px;font-weight:700;letter-spacing:.14em;color:var(--wine);
+  background:var(--wine-tint);border-radius:5px;padding:3px 7px;line-height:1.3;flex:none;
+}
+.shead h2{margin:0;font-size:17px;font-weight:700;color:var(--ink);letter-spacing:-.02em}
+.shead span{font-size:12.5px;color:var(--muted);margin-left:auto;flex:none}
+
+/* ── 문항 ── */
+.q{padding:20px 0;border-top:1px solid var(--line)}
+.q:first-child{padding-top:2px;border-top:0}
+.q:last-child{padding-bottom:2px}
+.qt{display:block;color:var(--ink);font-weight:600;font-size:15.5px;line-height:1.55;margin-bottom:4px}
+.qt .n{color:var(--wine);font-weight:700;margin-right:6px;font-variant-numeric:tabular-nums}
+.req{color:var(--wine);margin-left:3px}
+.opt-tag{
+  display:inline-block;margin-left:6px;font-size:11px;font-weight:500;color:var(--muted);
+  border:1px solid var(--line);border-radius:4px;padding:1px 5px;vertical-align:1px;letter-spacing:0;
+}
+.help{font-size:13px;color:var(--muted);margin:0 0 12px}
+.q .help:last-of-type{margin-bottom:12px}
+
+/* ── 입력 ── */
+input[type=text],input[type=email],textarea{
+  width:100%;padding:12px 14px;border:1px solid var(--line);border-radius:10px;
+  background:var(--field);color:var(--ink);font:inherit;font-size:15px;
+  transition:border-color .15s,box-shadow .15s,background .15s;
+}
+input::placeholder,textarea::placeholder{color:#B3AEB0}
+:root[data-theme="dark"] input::placeholder{color:#5E585B}
+input[type=text]:focus,input[type=email]:focus,textarea:focus{
+  outline:none;border-color:var(--wine);background:var(--card);
+  box-shadow:0 0 0 3px color-mix(in srgb,var(--wine) 13%,transparent);
+}
+textarea{resize:vertical;min-height:96px;line-height:1.7}
+.grid2{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+
+/* ── 선택지 ── */
+.opts{display:flex;flex-direction:column;gap:8px}
+.opts.two{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.opts.chips{flex-direction:row;flex-wrap:wrap}
+.opt{
+  position:relative;display:flex;align-items:flex-start;gap:10px;cursor:pointer;
+  padding:12px 14px;border:1px solid var(--line);border-radius:10px;background:var(--field);
+  font-size:14.5px;line-height:1.5;color:var(--body);
+  transition:border-color .15s,background .15s,color .15s;
+}
+.opts.chips .opt{padding:9px 14px;border-radius:100px;font-size:14px}
+.opt input{position:absolute;opacity:0;width:0;height:0}
+.mark{
+  flex:none;width:18px;height:18px;margin-top:1px;border:1.5px solid #C8C2C4;
+  border-radius:50%;background:var(--card);transition:all .15s;position:relative;
+}
+.opts.chips .mark{display:none}
+.opt.cb .mark{border-radius:5px}
+.mark::after{
+  content:"";position:absolute;inset:0;margin:auto;width:8px;height:8px;border-radius:50%;
+  background:#fff;transform:scale(0);transition:transform .15s cubic-bezier(.3,1.4,.6,1);
+}
+.opt.cb .mark::after{
+  width:10px;height:6px;border-radius:0;background:none;
+  border-left:2px solid #fff;border-bottom:2px solid #fff;transform:rotate(-45deg) scale(0);
+  margin-bottom:3px;
+}
+.opt:hover{border-color:var(--wine-line);background:var(--wine-tint)}
+.opt:has(input:checked){border-color:var(--wine);background:var(--wine-tint);color:var(--ink);font-weight:600}
+.opt:has(input:checked) .mark{border-color:var(--wine);background:var(--wine)}
+.opt:has(input:checked) .mark::after{transform:scale(1)}
+.opt.cb:has(input:checked) .mark::after{transform:rotate(-45deg) scale(1)}
+.opt:has(input:focus-visible){box-shadow:0 0 0 3px color-mix(in srgb,var(--wine) 18%,transparent)}
+
+/* ── 5점 척도 ── */
+.scale{display:grid;grid-template-columns:repeat(5,1fr);gap:7px;margin-top:4px}
+.scale label{
+  position:relative;display:flex;align-items:center;justify-content:center;cursor:pointer;
+  aspect-ratio:1/.82;border:1px solid var(--line);border-radius:10px;background:var(--field);
+  font-size:17px;font-weight:600;color:var(--muted);transition:all .15s;
+}
+.scale input{position:absolute;opacity:0;width:0;height:0}
+.scale label:hover{border-color:var(--wine-line);background:var(--wine-tint)}
+.scale label:has(input:checked){background:var(--wine);border-color:var(--wine);color:#fff;transform:translateY(-2px)}
+.scale-ends{display:flex;justify-content:space-between;margin-top:9px;font-size:12.5px;color:var(--muted)}
+
+/* ── 조건부 블록 ── */
+.reveal{
+  display:grid;grid-template-rows:0fr;opacity:0;
+  transition:grid-template-rows .4s cubic-bezier(.4,0,.2,1),opacity .3s,margin .4s;
+  margin-top:0;
+}
+.reveal>div{overflow:hidden}
+.reveal.on{grid-template-rows:1fr;opacity:1;margin-top:14px}
+.subcard{
+  border:1px dashed var(--wine-line);border-radius:12px;background:var(--wine-tint);
+  padding:18px;
+}
+.subcard .st{
+  display:flex;align-items:center;gap:7px;font-size:13px;font-weight:700;color:var(--wine);
+  margin-bottom:14px;letter-spacing:-.01em;
+}
+.subq{margin-bottom:14px}
+.subq:last-child{margin-bottom:0}
+.subq>span{display:block;font-size:14px;font-weight:600;color:var(--ink);margin-bottom:8px}
+.subcard input[type=text],.subcard textarea{background:var(--card)}
+
+/* ── 제출 ── */
+.submit-zone{margin-top:26px;text-align:center}
+button.send{
+  width:100%;padding:16px;border:0;border-radius:12px;cursor:pointer;
+  background:var(--wine);color:#fff;font:inherit;font-size:16px;font-weight:700;letter-spacing:-.01em;
+  box-shadow:0 4px 16px -4px color-mix(in srgb,var(--wine) 45%,transparent);
+  transition:transform .12s,background .15s,box-shadow .15s;
+}
+:root[data-theme="dark"] button.send{color:#25121A}
+button.send:hover{background:var(--wine-deep);transform:translateY(-1px)}
+button.send:active{transform:translateY(0)}
+button.send:disabled{opacity:.6;cursor:progress}
+.after{margin:14px 0 0;font-size:12.5px;color:var(--muted);line-height:1.7}
+
+/* ── 푸터 ── */
+footer{margin-top:38px;padding-top:22px;border-top:1px solid var(--line);text-align:center}
+footer p{margin:0 0 7px;font-size:12.5px;color:var(--muted);line-height:1.7}
+footer .sig{color:var(--ink);font-weight:600;font-size:13px}
+footer .contact{font-size:12.5px;margin-bottom:14px}
+a{color:var(--wine);text-decoration:none;border-bottom:1px solid var(--wine-line);transition:border-color .15s}
+a:hover{border-bottom-color:var(--wine)}
+
+/* ── 오류 ── */
+.q.err .qt{color:var(--wine)}
+.q.err input[type=text],.q.err textarea{border-color:var(--wine)}
+.q.err .opts .opt,.q.err .scale label{border-color:var(--wine-line)}
+.errmsg{display:none;margin:9px 0 0;font-size:13px;color:var(--wine);font-weight:600}
+.q.err .errmsg{display:block}
+.toast{
+  position:fixed;left:50%;bottom:26px;transform:translate(-50%,120%);
+  background:var(--ink);color:var(--bg);padding:12px 20px;border-radius:100px;
+  font-size:14px;font-weight:600;z-index:60;box-shadow:0 10px 30px -8px rgba(0,0,0,.4);
+  transition:transform .35s cubic-bezier(.3,1.3,.6,1);max-width:calc(100% - 32px);
+}
+.toast.on{transform:translate(-50%,0)}
+
+/* ── 완료 화면 ── */
+#done{display:none;text-align:center;padding:64px 0 40px}
+#done.on{display:block;animation:rise .5s cubic-bezier(.2,.9,.3,1)}
+@keyframes rise{from{opacity:0;transform:translateY(14px)}to{opacity:1;transform:none}}
+.seal{
+  width:70px;height:70px;margin:0 auto 24px;border-radius:50%;
+  background:var(--wine-tint);border:1px solid var(--wine-line);
+  display:flex;align-items:center;justify-content:center;
+}
+.seal svg{width:32px;height:32px;stroke:var(--wine);fill:none;stroke-width:2.2;stroke-linecap:round;stroke-linejoin:round}
+#done h2{margin:0 0 12px;font-size:24px;color:var(--ink);font-weight:700;letter-spacing:-.02em}
+#done p{margin:0 auto 8px;max-width:420px;color:var(--muted);font-size:14.5px;line-height:1.75}
+.dactions{display:flex;gap:10px;justify-content:center;flex-wrap:wrap;margin-top:28px}
+.ghost{
+  padding:11px 20px;border:1px solid var(--line);border-radius:10px;background:var(--card);
+  color:var(--body);font:inherit;font-size:14px;font-weight:600;cursor:pointer;transition:all .15s;
+}
+.ghost:hover{border-color:var(--wine);color:var(--wine);background:var(--wine-tint)}
+
+@media (max-width:520px){
+  header{padding:38px 0 24px}
+  h1{font-size:25px}
+  .card{padding:20px 17px;border-radius:12px}
+  .grid2,.opts.two{grid-template-columns:1fr}
+  .scale label{font-size:15px}
+}
+@media (prefers-reduced-motion:reduce){*{transition-duration:.01ms!important;animation-duration:.01ms!important}}
+</style>
+</head>
+<body>
+<div id="bar"><i></i></div>
+
+<div class="wrap">
+
+<!-- ══════════ 헤더 ══════════ -->
+<header id="top">
+  <div class="crest">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+      <path d="M12 3 3 7.5l9 4.5 9-4.5L12 3Z"/><path d="M3 12.5 12 17l9-4.5"/><path d="M3 17.5 12 22l9-4.5"/>
+    </svg>
+    동덕여자대학교 · 경영융합학과
+  </div>
+  <h1><em>2026학년도 2학기</em>지도교수 상담 설문</h1>
+  <p class="lede">3분이면 충분합니다. 편하게 답해 주세요.</p>
+  <div class="rule"></div>
+</header>
+
+<!-- ══════════ 안내 ══════════ -->
+<div class="card notice">
+  <p>안녕하세요, 경영융합학과 <strong>강호준</strong> 교수입니다.<br>이번 학기 지도교수 상담을 <strong>이 설문으로 대신합니다.</strong></p>
+  <p>응답은 <strong>지도 목적으로만</strong> 사용되며 <strong>성적과는 전혀 무관</strong>합니다. 부담스러운 문항은 <strong>건너뛰셔도 괜찮습니다.</strong></p>
+  <p>답변을 보고 제가 도울 일이 있으면 따로 연락드리겠습니다. <span class="hl">더 이야기 나누고 싶은 학생은 마지막 문항에서 신청</span>해 주세요.</p>
+</div>
+
+<form id="f" novalidate>
+
+<!-- ══════════ 01 ══════════ -->
+<section>
+  <div class="shead"><span class="snum">01</span><h2>기본 정보</h2></div>
+  <div class="card">
+
+    <div class="q" data-req="sid">
+      <label class="qt" for="sid"><span class="n">1</span>학번<span class="req">*</span></label>
+      <input type="text" id="sid" name="학번" inputmode="numeric" placeholder="예) 20251234" autocomplete="off">
+      <p class="errmsg">학번을 입력해 주세요.</p>
+    </div>
+
+    <div class="q" data-req="name">
+      <label class="qt" for="name"><span class="n">2</span>이름<span class="req">*</span></label>
+      <input type="text" id="name" name="이름" placeholder="홍길동" autocomplete="name">
+      <p class="errmsg">이름을 입력해 주세요.</p>
+    </div>
+
+    <div class="q" data-req="학년">
+      <span class="qt"><span class="n">3</span>학년<span class="req">*</span></span>
+      <div class="opts chips">
+        <label class="opt"><input type="radio" name="학년" value="1학년"><span class="mark"></span>1학년</label>
+        <label class="opt"><input type="radio" name="학년" value="2학년"><span class="mark"></span>2학년</label>
+        <label class="opt"><input type="radio" name="학년" value="3학년"><span class="mark"></span>3학년</label>
+        <label class="opt"><input type="radio" name="학년" value="4학년"><span class="mark"></span>4학년</label>
+        <label class="opt"><input type="radio" name="학년" value="5학기 이상 / 초과학기"><span class="mark"></span>초과학기</label>
+      </div>
+      <p class="errmsg">학년을 선택해 주세요.</p>
+    </div>
+
+    <div class="q" data-req="contact">
+      <label class="qt" for="contact"><span class="n">4</span>연락 가능한 방법<span class="req">*</span></label>
+      <p class="help">카카오톡 ID 또는 이메일 중 편한 쪽으로 적어 주세요.</p>
+      <input type="text" id="contact" name="연락처" placeholder="kakao_id 또는 name@dongduk.ac.kr" autocomplete="off">
+      <p class="errmsg">연락 방법을 입력해 주세요.</p>
+    </div>
+
+  </div>
+</section>
+
+<!-- ══════════ 02 ══════════ -->
+<section>
+  <div class="shead"><span class="snum">02</span><h2>이번 학기 근황</h2></div>
+  <div class="card">
+
+    <div class="q" data-req="근황">
+      <span class="qt"><span class="n">5</span>이번 학기는 어떻게 지내고 있나요?<span class="req">*</span></span>
+      <div class="opts two">
+        <label class="opt"><input type="radio" name="근황" value="잘 지내고 있어요"><span class="mark"></span>잘 지내고 있어요</label>
+        <label class="opt"><input type="radio" name="근황" value="그럭저럭 괜찮아요"><span class="mark"></span>그럭저럭 괜찮아요</label>
+        <label class="opt"><input type="radio" name="근황" value="조금 힘들어요"><span class="mark"></span>조금 힘들어요</label>
+        <label class="opt"><input type="radio" name="근황" value="많이 힘들어요"><span class="mark"></span>많이 힘들어요</label>
+      </div>
+      <p class="errmsg">하나만 골라 주세요.</p>
+    </div>
+
+    <div class="q">
+      <span class="qt"><span class="n">6</span>학업 중 신경 쓰이는 부분이 있다면?<span class="opt-tag">복수 선택 · 선택</span></span>
+      <div class="opts">
+        <label class="opt cb"><input type="checkbox" name="학업고민" value="특별히 없음" data-none><span class="mark"></span>특별히 없음</label>
+        <label class="opt cb"><input type="checkbox" name="학업고민" value="수업 내용이 어렵다"><span class="mark"></span>수업 내용이 어렵다</label>
+        <label class="opt cb"><input type="checkbox" name="학업고민" value="학점 / 재수강"><span class="mark"></span>학점 / 재수강</label>
+        <label class="opt cb"><input type="checkbox" name="학업고민" value="수강신청·졸업요건이 헷갈린다"><span class="mark"></span>수강신청 · 졸업요건이 헷갈린다</label>
+        <label class="opt cb"><input type="checkbox" name="학업고민" value="시간 관리가 어렵다"><span class="mark"></span>시간 관리가 어렵다</label>
+        <label class="opt cb"><input type="checkbox" name="학업고민" value="기타"><span class="mark"></span>기타</label>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- ══════════ 03 ══════════ -->
+<section>
+  <div class="shead"><span class="snum">03</span><h2>진로</h2><span>모두 선택 문항</span></div>
+  <div class="card">
+
+    <div class="q">
+      <span class="qt"><span class="n">7</span>졸업 후 생각하고 있는 방향은?</span>
+      <div class="opts two">
+        <label class="opt"><input type="radio" name="진로방향" value="취업"><span class="mark"></span>취업</label>
+        <label class="opt"><input type="radio" name="진로방향" value="대학원"><span class="mark"></span>대학원</label>
+        <label class="opt"><input type="radio" name="진로방향" value="공무원·공기업"><span class="mark"></span>공무원 · 공기업</label>
+        <label class="opt"><input type="radio" name="진로방향" value="전문자격 (CPA, 세무사 등)"><span class="mark"></span>전문자격 (CPA·세무사 등)</label>
+        <label class="opt"><input type="radio" name="진로방향" value="창업"><span class="mark"></span>창업</label>
+        <label class="opt"><input type="radio" name="진로방향" value="아직 잘 모르겠다"><span class="mark"></span>아직 잘 모르겠다</label>
+      </div>
+    </div>
+
+    <div class="q">
+      <span class="qt"><span class="n">8</span>관심 있는 분야가 있다면?<span class="opt-tag">복수 선택</span></span>
+      <div class="opts chips">
+        <label class="opt"><input type="checkbox" name="관심분야" value="재무·금융"><span class="mark"></span>재무 · 금융</label>
+        <label class="opt"><input type="checkbox" name="관심분야" value="회계·세무"><span class="mark"></span>회계 · 세무</label>
+        <label class="opt"><input type="checkbox" name="관심분야" value="인사·조직"><span class="mark"></span>인사 · 조직</label>
+        <label class="opt"><input type="checkbox" name="관심분야" value="마케팅"><span class="mark"></span>마케팅</label>
+        <label class="opt"><input type="checkbox" name="관심분야" value="전략·기획"><span class="mark"></span>전략 · 기획</label>
+        <label class="opt"><input type="checkbox" name="관심분야" value="생산·물류"><span class="mark"></span>생산 · 물류</label>
+        <label class="opt"><input type="checkbox" name="관심분야" value="데이터·IT"><span class="mark"></span>데이터 · IT</label>
+        <label class="opt"><input type="checkbox" name="관심분야" value="공공"><span class="mark"></span>공공</label>
+        <label class="opt"><input type="checkbox" name="관심분야" value="아직 미정" data-none><span class="mark"></span>아직 미정</label>
+      </div>
+    </div>
+
+    <div class="q">
+      <span class="qt"><span class="n">9</span>진로 준비는 어느 정도라고 느끼나요?</span>
+      <div class="scale">
+        <label><input type="radio" name="진로준비도" value="1">1</label>
+        <label><input type="radio" name="진로준비도" value="2">2</label>
+        <label><input type="radio" name="진로준비도" value="3">3</label>
+        <label><input type="radio" name="진로준비도" value="4">4</label>
+        <label><input type="radio" name="진로준비도" value="5">5</label>
+      </div>
+      <div class="scale-ends"><span>전혀 모르겠다</span><span>계획대로 잘 되고 있다</span></div>
+    </div>
+
+  </div>
+</section>
+
+<!-- ══════════ 04 ══════════ -->
+<section>
+  <div class="shead"><span class="snum">04</span><h2>필요한 도움</h2></div>
+  <div class="card">
+
+    <div class="q">
+      <span class="qt"><span class="n">10</span>학과나 교수에게 바라는 도움이 있다면?<span class="opt-tag">복수 선택 · 선택</span></span>
+      <div class="opts">
+        <label class="opt cb"><input type="checkbox" name="필요도움" value="특별히 없음" data-none><span class="mark"></span>특별히 없음</label>
+        <label class="opt cb"><input type="checkbox" name="필요도움" value="진로·취업 관련 조언"><span class="mark"></span>진로 · 취업 관련 조언</label>
+        <label class="opt cb"><input type="checkbox" name="필요도움" value="수강·졸업요건 안내"><span class="mark"></span>수강 · 졸업요건 안내</label>
+        <label class="opt cb"><input type="checkbox" name="필요도움" value="인턴·대외활동 정보"><span class="mark"></span>인턴 · 대외활동 정보</label>
+        <label class="opt cb"><input type="checkbox" name="필요도움" value="대학원 진학 상담"><span class="mark"></span>대학원 진학 상담</label>
+        <label class="opt cb"><input type="checkbox" name="필요도움" value="추천서"><span class="mark"></span>추천서</label>
+        <label class="opt cb"><input type="checkbox" name="필요도움" value="기타"><span class="mark"></span>기타</label>
+      </div>
+    </div>
+
+    <div class="q">
+      <label class="qt" for="free"><span class="n">11</span>자유롭게 하고 싶은 말<span class="opt-tag">선택</span></label>
+      <p class="help">짧게라도 좋습니다. 안 쓰셔도 괜찮아요.</p>
+      <textarea id="free" name="자유의견" placeholder="어떤 이야기든 좋습니다."></textarea>
+    </div>
+
+  </div>
+</section>
+
+<!-- ══════════ 05 ══════════ -->
+<section>
+  <div class="shead"><span class="snum">05</span><h2>상담 신청</h2></div>
+  <div class="card">
+
+    <div class="q" data-req="상담희망">
+      <span class="qt"><span class="n">12</span>대면(또는 비대면) 상담을 원하시나요?<span class="req">*</span></span>
+      <p class="help">설문만으로 충분하다면 그렇게 선택하셔도 전혀 문제없습니다.</p>
+      <div class="opts">
+        <label class="opt"><input type="radio" name="상담희망" value="아니요, 설문으로 충분합니다"><span class="mark"></span>아니요, 설문으로 충분합니다</label>
+        <label class="opt"><input type="radio" name="상담희망" value="네, 이야기 나누고 싶습니다" id="want"><span class="mark"></span>네, 이야기 나누고 싶습니다</label>
+        <label class="opt"><input type="radio" name="상담희망" value="지금은 아니지만, 나중에 필요하면 연락드리겠습니다"><span class="mark"></span>지금은 아니지만, 나중에 필요하면 연락드리겠습니다</label>
+      </div>
+      <p class="errmsg">하나만 골라 주세요.</p>
+
+      <div class="reveal" id="more"><div>
+        <div class="subcard">
+          <div class="st">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+            상담 일정을 잡겠습니다
+          </div>
+          <div class="subq">
+            <span>12-1. 편한 방식</span>
+            <div class="opts chips">
+              <label class="opt"><input type="radio" name="상담방식" value="연구실 방문"><span class="mark"></span>연구실 방문 (인문관 B406)</label>
+              <label class="opt"><input type="radio" name="상담방식" value="줌(Zoom)"><span class="mark"></span>줌(Zoom)</label>
+              <label class="opt"><input type="radio" name="상담방식" value="전화"><span class="mark"></span>전화</label>
+              <label class="opt"><input type="radio" name="상담방식" value="메일"><span class="mark"></span>메일</label>
+            </div>
+          </div>
+          <div class="subq">
+            <span>12-2. 가능한 요일 · 시간대</span>
+            <input type="text" name="가능시간" placeholder="예) 화·목 오후 2시 이후">
+          </div>
+          <div class="subq">
+            <span>12-3. 미리 알려주실 내용이 있다면 <span class="opt-tag">선택</span></span>
+            <textarea name="상담주제" placeholder="어떤 이야기를 나누고 싶은지 한 줄만 적어 주셔도 좋습니다." style="min-height:76px"></textarea>
+          </div>
+        </div>
+      </div></div>
+    </div>
+
+  </div>
+
+  <div class="submit-zone">
+    <button type="submit" class="send" id="send">응답 제출하기</button>
+    <p class="after">제출 후에도 언제든 <a href="mailto:hjkang@dongduk.ac.kr">hjkang@dongduk.ac.kr</a> 로 메일 주시면 상담 가능합니다.<br>연구실은 <strong>인문관 B406</strong> 입니다.</p>
+  </div>
+</section>
+
+</form>
+
+<!-- ══════════ 완료 ══════════ -->
+<div id="done">
+  <div class="seal">
+    <svg viewBox="0 0 24 24"><path d="m4 12.5 5.2 5.2L20 7"/></svg>
+  </div>
+  <h2>제출되었습니다</h2>
+  <p>참여해 주셔서 감사합니다. 답변은 꼼꼼히 읽어보겠습니다.</p>
+  <p>궁금한 점이 생기면 언제든 <a href="mailto:hjkang@dongduk.ac.kr">hjkang@dongduk.ac.kr</a> 또는 인문관 B406으로 찾아와 주세요.</p>
+  <p id="doneExtra"></p>
+  <div class="dactions">
+    <button class="ghost" id="copy">내 응답 내용 복사</button>
+    <button class="ghost" id="again">처음으로</button>
+  </div>
+</div>
+
+<!-- ══════════ 푸터 ══════════ -->
+<footer>
+  <p class="sig">동덕여자대학교 경영융합학과 · 강호준</p>
+  <p class="contact"><a href="mailto:hjkang@dongduk.ac.kr">hjkang@dongduk.ac.kr</a> &nbsp;·&nbsp; 연구실 인문관 B406</p>
+  <p>학업·진로 외의 어려움은 <strong>교내 학생상담센터</strong>에서도 도움받으실 수 있습니다.<br>본 설문은 지도 목적으로만 사용되며, 성적 평가와 무관합니다.</p>
+</footer>
+
+</div>
+
+<div class="toast" id="toast"></div>
+
+<script>
+/* ═══════════════════════════════════════════════════
+   [설정] 응답을 받을 곳
+   ───────────────────────────────────────────────────
+   ENDPOINT : Google Apps Script 웹앱 URL
+              (배포 > 새 배포 > 웹 앱 > 액세스 권한 "모든 사용자")
+   TOKEN    : Code.gs 의 TOKEN 과 반드시 같아야 합니다.
+              장난 제출을 막는 최소한의 자물쇠입니다.
+
+   ENDPOINT를 비워두면 '데모 모드'로 동작합니다.
+   (저장 없이 완료 화면만 표시 — 배포 전 확인용)
+   ═══════════════════════════════════════════════════ */
+const ENDPOINT = "https://script.google.com/macros/s/AKfycbxbxo_rPlMwHGSl865_LYFeYwHSK0ogGxTQO0ScBTuyRNZYLRnRSrEVFrdqaKsq4hwvvA/exec";
+const TOKEN    = "dwu-2026-2";
+
+const $  = (s,c=document)=>c.querySelector(s);
+const $$ = (s,c=document)=>[...c.querySelectorAll(s)];
+const form = $("#f");
+
+/* ── 진행률 ── */
+const REQUIRED = ["학번","이름","학년","연락처","상담희망"];
+function progress(){
+  const d = new FormData(form);
+  const filled = REQUIRED.filter(k => (d.get(k)||"").toString().trim()).length;
+  $("#bar i").style.width = (filled/REQUIRED.length*100) + "%";
+}
+form.addEventListener("input", progress);
+form.addEventListener("change", progress);
+
+/* ── '해당 없음' 계열 체크박스는 다른 선택과 배타 ── */
+$$('input[type=checkbox]').forEach(cb=>{
+  cb.addEventListener("change", ()=>{
+    const group = $$(`input[name="${cb.name}"]`);
+    const none  = group.find(x=>x.hasAttribute("data-none"));
+    if(!none) return;
+    if(cb.hasAttribute("data-none") && cb.checked){
+      group.forEach(x=>{ if(x!==cb) x.checked=false; });
+    }else if(cb.checked){
+      none.checked = false;
+    }
+  });
+});
+
+/* ── 12번 조건부 노출 ── */
+$$('input[name="상담희망"]').forEach(r=>{
+  r.addEventListener("change", ()=>{
+    const on = $("#want").checked;
+    $("#more").classList.toggle("on", on);
+    if(on) setTimeout(()=>$("#more").scrollIntoView({behavior:"smooth",block:"nearest"}), 260);
+  });
+});
+
+/* ── 선택 시 오류 표시 해제 ── */
+form.addEventListener("input", e=>{
+  const q = e.target.closest(".q");
+  if(q) q.classList.remove("err");
+});
+
+/* ── 토스트 ── */
+let tt;
+function toast(msg){
+  const t = $("#toast");
+  t.textContent = msg; t.classList.add("on");
+  clearTimeout(tt); tt = setTimeout(()=>t.classList.remove("on"), 2600);
+}
+
+/* ── 검증 ── */
+function validate(){
+  const d = new FormData(form);
+  let first = null;
+  $$(".q[data-req]").forEach(q=>{
+    const key = q.dataset.req;
+    const name = q.querySelector("[name]")?.name || key;
+    const ok = (d.get(name)||"").toString().trim() !== "";
+    q.classList.toggle("err", !ok);
+    if(!ok && !first) first = q;
+  });
+  if(first){
+    first.scrollIntoView({behavior:"smooth",block:"center"});
+    toast("표시된 문항을 확인해 주세요");
+    return false;
+  }
+  return true;
+}
+
+/* ── 응답 수집 ── */
+function collect(){
+  const d = new FormData(form);
+  const out = {};
+  for(const k of new Set([...d.keys()])){
+    const v = d.getAll(k).filter(x=>x.toString().trim());
+    if(v.length) out[k] = v.join(", ");
+  }
+  out["제출시각"] = new Date().toLocaleString("ko-KR");
+  return out;
+}
+let lastAnswer = {};
+
+/* ── 제출 ── */
+form.addEventListener("submit", async e=>{
+  e.preventDefault();
+  if(!validate()) return;
+
+  const btn = $("#send");
+  btn.disabled = true; btn.textContent = "제출 중…";
+  lastAnswer = collect();
+
+  try{
+    if(ENDPOINT){
+      const body = new URLSearchParams({ ...lastAnswer, _token: TOKEN });
+      try{
+        // 1차: 일반 요청 — 서버 응답을 읽어 성공/실패를 정확히 판별
+        const res  = await fetch(ENDPOINT, { method:"POST", body });
+        const json = await res.json();
+        if(!json.ok) throw new Error(json.error || "server");
+      }catch(err){
+        // 2차: CORS 차단 등으로 응답을 못 읽는 환경 → 전송만 시도
+        if(String(err.message).startsWith("server")) throw err;
+        await fetch(ENDPOINT, { method:"POST", mode:"no-cors", body });
+      }
+    }else{
+      await new Promise(r=>setTimeout(r,500));
+      console.log("[데모 모드] 수집된 응답:", lastAnswer);
+    }
+    $("#bar i").style.width = "100%";
+    form.style.display = "none";
+    $(".notice").style.display = "none";
+    $("#doneExtra").textContent = lastAnswer["상담희망"]?.startsWith("네")
+      ? "상담을 신청해 주셨네요. 알려주신 연락처로 곧 일정을 조율하겠습니다."
+      : "도움이 필요하다고 판단되면 제가 먼저 연락드리겠습니다.";
+    if(!ENDPOINT) $("#doneExtra").textContent += "  (※ 현재 데모 모드 — 실제 저장되지 않았습니다)";
+    $("#done").classList.add("on");
+    $("#top").scrollIntoView({behavior:"smooth"});
+  }catch(err){
+    toast("제출에 실패했어요. 잠시 후 다시 시도해 주세요.");
+    btn.disabled = false; btn.textContent = "응답 제출하기";
+  }
+});
+
+/* ── 완료 화면 버튼 ── */
+$("#copy").addEventListener("click", async ()=>{
+  const txt = Object.entries(lastAnswer).map(([k,v])=>`${k}: ${v}`).join("\n");
+  try{ await navigator.clipboard.writeText(txt); toast("응답 내용을 복사했습니다"); }
+  catch{ toast("복사에 실패했어요"); }
+});
+$("#again").addEventListener("click", ()=>{
+  form.reset(); form.style.display = "";
+  $(".notice").style.display = "";
+  $("#done").classList.remove("on");
+  $("#more").classList.remove("on");
+  $("#bar i").style.width = "0";
+  $("#top").scrollIntoView({behavior:"smooth"});
+});
+
+progress();
+</script>
+</body>
+</html>
